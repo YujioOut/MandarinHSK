@@ -67,15 +67,15 @@
           return;
         }
 
-        // Ensure each entry has Kanji, Kana, English, and Romaji
-        const csvHeader = "Kanji,Kana,English\n";
+        // Ensure each entry has Chinese, Pinyin, and English
+        const csvHeader = "Chinese,Pinyin,English\n";
         const csvRows = selectedData
           .map((entry) => {
-            const kanji = entry.Kanji || "";
-            const kana = entry.Kana || "";
+            const chinese = entry.Chinese || "";
+            const pinyin = entry.Pinyin || "";
             const english = entry.English || "";
 
-            return `${kanji},${kana},${english}`;
+            return `${chinese},${pinyin},${english}`;
           })
           .join("\n");
 
@@ -156,9 +156,7 @@
       <button class="prev-button" id="prevButton">Previous</button>
       <button class="next-button" id="nextButton">Next</button>
       <button class="reset-button" id="resetButton">Reset</button>
-      <button class="toggle-romaji-button" id="toggleRomajiButton">
-        unnecessary button
-      </button>
+
       <button class="toggle-kana-button" id="toggleKanaButton">
         Toggle Pinyin
       </button>
@@ -179,7 +177,6 @@
       let selectedItems =
         JSON.parse(localStorage.getItem("selectedItems")) || {}; // Stores selected items across pages
       let isStudyMode = false; // Tracks if we're in study mode
-      let showRomaji = true; // Flag to control whether Romaji is shown
       let showKana = true; // Flag to control whether Kana is shown
       let showEnglish = true; // Flag to control whether English is shown
 
@@ -205,7 +202,6 @@
             const dataToShow = isStudyMode
               ? dataToDisplayForStudy
               : dataToDisplay;
-            showRomaji = !showRomaji;
 
             dataToShow.forEach((entry, index) => {
               if (index % 10 === 0) {
@@ -215,10 +211,9 @@
 
               const td = document.createElement("td");
               td.innerHTML = `
-                ${entry.Kanji}<br>
-                ${showKana ? entry.Kana : ""}<br>
-                ${showEnglish ? entry.English : ""}<br>
-              ${showRomaji ? entry.Romaji : ""}
+                ${entry.Chinese}<br>
+                ${showKana ? entry.Pinyin : ""}<br>
+                ${showEnglish ? entry.English : ""}
               `;
 
               const entryId = currentIndex + index;
@@ -256,7 +251,6 @@
             .addEventListener("click", () => {
               if (currentIndex + 100 < parsedData.length) {
                 currentIndex += 100;
-                showRomaji = !showRomaji;
                 renderTable();
               } else {
                 alert("No more data to display.");
@@ -269,7 +263,6 @@
             .addEventListener("click", () => {
               if (currentIndex - 100 >= 0) {
                 currentIndex -= 100;
-                showRomaji = !showRomaji;
                 renderTable();
               } else {
                 alert("You're already at the beginning of the data.");
@@ -280,7 +273,6 @@
           document
             .getElementById("studyButton")
             .addEventListener("click", () => {
-              showRomaji = !showRomaji;
               isStudyMode = !isStudyMode;
               document.getElementById("studyButton").textContent = isStudyMode
                 ? "Show All"
@@ -292,16 +284,7 @@
             .getElementById("resetButton")
             .addEventListener("click", () => {
               localStorage.removeItem("selectedItems");
-              showRomaji = !showRomaji;
               selectedItems = {};
-              renderTable();
-            });
-
-          // Event listener for Romaji toggle button
-          document
-            .getElementById("toggleRomajiButton")
-            .addEventListener("click", () => {
-              showRomaji = !showRomaji;
               renderTable();
             });
 
@@ -310,7 +293,6 @@
             .getElementById("toggleKanaButton")
             .addEventListener("click", () => {
               showKana = !showKana;
-              showRomaji = !showRomaji;
               renderTable();
             });
           // Attach the export function to the export button
@@ -323,7 +305,6 @@
             .getElementById("toggleEnglishButton")
             .addEventListener("click", () => {
               showEnglish = !showEnglish;
-              showRomaji = !showRomaji;
               renderTable();
             });
 

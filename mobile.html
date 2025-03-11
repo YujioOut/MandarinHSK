@@ -12,10 +12,31 @@
         }
       }
 
-      // Check screen width on page load and resize
       window.onload = checkForDesktop;
       window.onresize = checkForDesktop;
     </script>
+    <style>
+      body {
+        font-size: 14px;
+      }
+      #vocabTable td {
+        width: 25%;
+        text-align: center;
+        font-size: 90%;
+      }
+      .button-container {
+        background: white;
+        padding: 10px;
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 5px;
+      }
+      .button-container button {
+        flex: 1 1 calc(33% - 10px);
+        min-width: 100px;
+      }
+    </style>
   </head>
   <body>
     <iframe
@@ -34,23 +55,20 @@
         <tr>
           <th>Fluency</th>
           <th>Flow</th>
+          <th>Chinese</th>
+          <th>5000 HSK</th>
         </tr>
       </thead>
-      <tbody>
-        <!-- Data will be populated here -->
-      </tbody>
+      <tbody></tbody>
     </table>
 
-    <div class="button-container">
-      <button class="study-button" id="studyButton">Study Mode</button>
+    <div class="button-container" id="buttonContainer">
+      <button class="study-button" id="studyButton">My Vocab</button>
       <button class="prev-button" id="prevButton">Previous</button>
       <button class="next-button" id="nextButton">Next</button>
       <button class="reset-button" id="resetButton">Reset</button>
-      <button class="toggle-romaji-button" id="toggleRomajiButton">
-        unnecessary Button
-      </button>
-      <button class="toggle-kana-button" id="toggleKanaButton">
-        Toggle Kana
+      <button class="toggle-pinyin-button" id="togglePinyinButton">
+        Toggle Pinyin
       </button>
       <button class="toggle-english-button" id="toggleEnglishButton">
         Toggle English
@@ -59,153 +77,101 @@
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.3.0/papaparse.min.js"></script>
     <script>
-      let currentIndex = 0; // Keeps track of the current index of the CSV data
+      let currentIndex = 0;
       let selectedItems =
-        JSON.parse(localStorage.getItem("selectedItems")) || {}; // Stores selected items across pages
-      let isStudyMode = false; // Tracks if we're in study mode
-      let showRomaji = true; // Flag to control whether Romaji is shown
-      let showKana = true; // Flag to control whether Kana is shown
-      let showEnglish = true; // Flag to control whether English is shown
+        JSON.parse(localStorage.getItem("selectedItems")) || {};
+      let isStudyMode = false;
+      let showPinyin = true;
+      let showEnglish = true;
+      let parsedData = [];
 
-      // Load the CSV file
       fetch("vocab_list.csv")
         .then((response) => response.text())
         .then((csvText) => {
-          const parsedData = Papa.parse(csvText, { header: true }).data;
-
-          // Function to render the data
-          const renderTable = () => {
-            const tableBody = document.querySelector("#vocabTable tbody");
-            tableBody.innerHTML = ""; // Clear the table
-
-            const dataToDisplay = parsedData.slice(
-              currentIndex,
-              currentIndex + 100
-            );
-            const dataToDisplayForStudy = Object.keys(selectedItems).map(
-              (id) => parsedData[id]
-            );
-
-            const dataToShow = isStudyMode
-              ? dataToDisplayForStudy
-              : dataToDisplay;
-            showRomaji = !showRomaji;
-
-            dataToShow.forEach((entry, index) => {
-              if (index % 2 === 0) {
-                row = document.createElement("tr");
-                tableBody.appendChild(row);
-              }
-
-              const td = document.createElement("td");
-              td.innerHTML = `
-          ${entry.Kanji}<br>
-          ${showKana ? entry.Kana : ""}<br>
-          ${showEnglish ? entry.English : ""}<br>
-          ${showRomaji ? entry.Romaji : ""}
-        `;
-
-              const entryId = currentIndex + index;
-
-              if (!isStudyMode && selectedItems[entryId]) {
-                td.classList.add("selected");
-              }
-
-              td.addEventListener("click", () => {
-                if (!isStudyMode) {
-                  td.classList.toggle("selected");
-                  if (td.classList.contains("selected")) {
-                    selectedItems[entryId] = entry;
-                  } else {
-                    delete selectedItems[entryId];
-                  }
-
-                  localStorage.setItem(
-                    "selectedItems",
-                    JSON.stringify(selectedItems)
-                  );
-                }
-              });
-
-              row.appendChild(td);
-            });
-          };
-
-          // Initial render
+          parsedData = Papa.parse(csvText, { header: true }).data;
           renderTable();
-
-          // Event listeners for existing buttons
-          document
-            .getElementById("nextButton")
-            .addEventListener("click", () => {
-              if (currentIndex + 100 < parsedData.length) {
-                currentIndex += 100;
-                showRomaji = !showRomaji;
-                renderTable();
-              } else {
-                alert("No more data to display.");
-              }
-            });
-
-          document
-            .getElementById("prevButton")
-            .addEventListener("click", () => {
-              if (currentIndex - 100 >= 0) {
-                currentIndex -= 100;
-                showRomaji = !showRomaji;
-                renderTable();
-              } else {
-                alert("You're already at the beginning of the data.");
-              }
-            });
-
-          document
-            .getElementById("studyButton")
-            .addEventListener("click", () => {
-              isStudyMode = !isStudyMode;
-              document.getElementById("studyButton").textContent = isStudyMode
-                ? "Show All"
-                : "Study Mode";
-              showRomaji = !showRomaji;
-              renderTable();
-            });
-
-          document
-            .getElementById("resetButton")
-            .addEventListener("click", () => {
-              localStorage.removeItem("selectedItems");
-              selectedItems = {};
-              showRomaji = !showRomaji;
-              renderTable();
-            });
-
-          // Event listener for Romaji toggle button
-          document
-            .getElementById("toggleRomajiButton")
-            .addEventListener("click", () => {
-              showRomaji = !showRomaji;
-              renderTable();
-            });
-
-          // Event listener for Kana toggle button
-          document
-            .getElementById("toggleKanaButton")
-            .addEventListener("click", () => {
-              showKana = !showKana;
-              showRomaji = !showRomaji;
-              renderTable();
-            });
-
-          // Event listener for English toggle button
-          document
-            .getElementById("toggleEnglishButton")
-            .addEventListener("click", () => {
-              showEnglish = !showEnglish;
-              showRomaji = !showRomaji;
-              renderTable();
-            });
         })
         .catch((error) => console.error("Error loading the CSV file: ", error));
+
+      function renderTable() {
+        const tableBody = document.querySelector("#vocabTable tbody");
+        tableBody.innerHTML = "";
+        const dataToDisplay = parsedData.slice(
+          currentIndex,
+          currentIndex + 100
+        );
+        const dataToDisplayForStudy = Object.keys(selectedItems).map(
+          (id) => parsedData[id]
+        );
+        const dataToShow = isStudyMode ? dataToDisplayForStudy : dataToDisplay;
+
+        let row;
+        dataToShow.forEach((entry, index) => {
+          if (index % 4 === 0) {
+            row = document.createElement("tr");
+            tableBody.appendChild(row);
+          }
+          const td = document.createElement("td");
+          td.innerHTML = `
+            ${entry.Chinese}<br>
+            ${showPinyin ? entry.Pinyin : ""}<br>
+            ${showEnglish ? entry.English : ""}
+          `;
+          const entryId = currentIndex + index;
+          if (!isStudyMode && selectedItems[entryId]) {
+            td.classList.add("selected");
+          }
+          td.addEventListener("click", () => {
+            if (!isStudyMode) {
+              td.classList.toggle("selected");
+              if (td.classList.contains("selected")) {
+                selectedItems[entryId] = entry;
+              } else {
+                delete selectedItems[entryId];
+              }
+              localStorage.setItem(
+                "selectedItems",
+                JSON.stringify(selectedItems)
+              );
+            }
+          });
+          row.appendChild(td);
+        });
+      }
+
+      document.getElementById("studyButton").addEventListener("click", () => {
+        isStudyMode = !isStudyMode;
+        renderTable();
+      });
+      document.getElementById("prevButton").addEventListener("click", () => {
+        if (currentIndex > 0) {
+          currentIndex -= 100;
+          renderTable();
+        }
+      });
+      document.getElementById("nextButton").addEventListener("click", () => {
+        if (currentIndex + 100 < parsedData.length) {
+          currentIndex += 100;
+          renderTable();
+        }
+      });
+      document.getElementById("resetButton").addEventListener("click", () => {
+        selectedItems = {};
+        localStorage.removeItem("selectedItems");
+        renderTable();
+      });
+      document
+        .getElementById("togglePinyinButton")
+        .addEventListener("click", () => {
+          showPinyin = !showPinyin;
+          renderTable();
+        });
+      document
+        .getElementById("toggleEnglishButton")
+        .addEventListener("click", () => {
+          showEnglish = !showEnglish;
+          renderTable();
+        });
     </script>
   </body>
 </html>
