@@ -21,13 +21,13 @@ table {
 
 th,
 td {
-  padding: 2px;
+  padding: 12px;
   text-align: center;
   height: 80px;
   background-color: white;
   border-radius: 8px;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-  font-size: 100%;
+  font-size: 85%;
   word-wrap: break-word;
 }
 
