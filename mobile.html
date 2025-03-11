@@ -15,40 +15,19 @@
       window.onload = checkForDesktop;
       window.onresize = checkForDesktop;
     </script>
-    <style>
-      body {
-        font-size: 14px;
-      }
-      #vocabTable td {
-        width: 25%;
-        text-align: center;
-        font-size: 90%;
-      }
-      .button-container {
-        background: white;
-        padding: 10px;
-        display: flex;
-        flex-wrap: wrap;
-        justify-content: center;
-        gap: 5px;
-      }
-      .button-container button {
-        flex: 1 1 calc(33% - 10px);
-        min-width: 100px;
-      }
-    </style>
+    <style></style>
   </head>
   <body>
-    <iframe
-      width="560"
-      height="315"
-      src="https://www.youtube.com/embed/5ZmgiEcfN7U?si=12SqLgBP8xtazz-l"
-      title="YouTube video player"
-      frameborder="0"
-      allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-      referrerpolicy="strict-origin-when-cross-origin"
-      allowfullscreen
-    ></iframe>
+    <div class="video-container">
+      <iframe
+        src="https://www.youtube.com/embed/5ZmgiEcfN7U?si=12SqLgBP8xtazz-l"
+        title="YouTube video player"
+        frameborder="0"
+        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+        referrerpolicy="strict-origin-when-cross-origin"
+        allowfullscreen
+      ></iframe>
+    </div>
 
     <table id="vocabTable">
       <thead>
