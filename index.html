@@ -106,24 +106,10 @@
   </head>
   <body>
     <iframe
+      id="videoFrame"
       width="560"
       height="315"
-      src="https://www.youtube.com/embed/ntH6qUwPwZE?si=ymwwn6CRGJsRa0LR"
-      title="YouTube video player"
       frameborder="0"
-      allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-      referrerpolicy="strict-origin-when-cross-origin"
-      allowfullscreen
-    ></iframe>
-
-    <iframe
-      width="560"
-      height="315"
-      src="https://www.youtube.com/embed/5ZmgiEcfN7U?si=12SqLgBP8xtazz-l"
-      title="YouTube video player"
-      frameborder="0"
-      allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-      referrerpolicy="strict-origin-when-cross-origin"
       allowfullscreen
     ></iframe>
 
@@ -179,6 +165,15 @@
       let isStudyMode = false; // Tracks if we're in study mode
       let showKana = true; // Flag to control whether Kana is shown
       let showEnglish = true; // Flag to control whether English is shown
+
+      const videoURLs = [
+        "https://www.youtube.com/embed/5ZmgiEcfN7U",
+        "https://www.youtube.com/embed/w9m6bPczqoc",
+      ];
+      function updateVideo() {
+        document.getElementById("videoFrame").src =
+          videoURLs[Math.floor(currentIndex / 100)] || videoURLs[0];
+      }
 
       // Load the CSV file
       fetch("vocab_list.csv")
@@ -244,6 +239,7 @@
 
           // Initial render
           renderTable();
+          updateVideo();
 
           // Event listeners for existing buttons
           document
@@ -255,6 +251,7 @@
               } else {
                 alert("No more data to display.");
               }
+              updateVideo();
               displayCurrentIndex();
             });
 
@@ -267,6 +264,7 @@
               } else {
                 alert("You're already at the beginning of the data.");
               }
+              updateVideo();
               displayCurrentIndex();
             });
 

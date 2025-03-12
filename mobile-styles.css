@@ -4,7 +4,7 @@ body {
 #vocabTable td {
   width: 25%;
   text-align: center;
-  font-size: 90%;
+  font-size: 18px;
 }
 .button-container {
   background: white;

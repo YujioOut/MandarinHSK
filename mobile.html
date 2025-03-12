@@ -64,6 +64,11 @@
       let showEnglish = true;
       let parsedData = [];
 
+      const videoURLs = [
+        "https://www.youtube.com/embed/5ZmgiEcfN7U?si=12SqLgBP8xtazz-l",
+        "https://www.youtube.com/embed/w9m6bPczqoc?si=7HX6pkh9ySsY8glq", // Replace with real URLs
+      ];
+
       fetch("vocab_list.csv")
         .then((response) => response.text())
         .then((csvText) => {
@@ -116,6 +121,15 @@
           });
           row.appendChild(td);
         });
+
+        updateVideo();
+      }
+
+      function updateVideo() {
+        const videoFrame = document.querySelector(".video-container iframe");
+        if (videoFrame && videoURLs[currentIndex / 100]) {
+          videoFrame.src = videoURLs[currentIndex / 100];
+        }
       }
 
       document.getElementById("studyButton").addEventListener("click", () => {
@@ -126,12 +140,16 @@
         if (currentIndex > 0) {
           currentIndex -= 100;
           renderTable();
+          document.body.scrollTop = 0; // For Safari
+          document.documentElement.scrollTop = 0;
         }
       });
       document.getElementById("nextButton").addEventListener("click", () => {
         if (currentIndex + 100 < parsedData.length) {
           currentIndex += 100;
           renderTable();
+          document.body.scrollTop = 0; // For Safari
+          document.documentElement.scrollTop = 0;
         }
       });
       document.getElementById("resetButton").addEventListener("click", () => {

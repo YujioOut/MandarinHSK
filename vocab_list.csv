@@ -11,7 +11,7 @@ Chinese,Pinyin,English,Romaji
 茶,chá,tea
 吃,chī,to eat
 出租车,chū zū chē,taxi
-打电话,dǎ diàn huà,to make a telephone call
+打电话,dǎ diàn huà,to call (phone)
 大,dà,big
 的,de,of
 点,diǎn,point
@@ -30,14 +30,14 @@ Chinese,Pinyin,English,Romaji
 飞机,fēi jī,airplane
 分钟,fēn zhōng,minute
 高兴,gāo xìng,happy
-个,gè,variant of 個|个[gè]
+个,gè, A/An One 
 工作,gōng zuò,to work
 狗,gǒu,dog
 汉语,Hàn yǔ,Chinese language
 好,hǎo,good
 喝,hē,to drink
 和,hé,and
-很,hěn,(adverb of degree)
+很,hěn,Very 
 后面,hòu mian,rear
 回,huí,to curve
 会,huì,can
@@ -53,9 +53,9 @@ Chinese,Pinyin,English,Romaji
 块,kuài,lump (of earth)
 来,lái,to come
 老师,lǎo shī,teacher
-了,le,(modal particle intensifying preceding clause)
+了,le, intensifying particle
 冷,lěng,cold
-里,lǐ,li (Chinese mile)
+里,lǐ,li inside or Chinese mmile
 零,líng,zero
 六,liù,six
 妈妈,mā ma,mama
@@ -69,7 +69,7 @@ Chinese,Pinyin,English,Romaji
 名字,míng zi,name (of a person or thing)
 哪,nǎ,how
 那,nà,that
-呢,ne,particle that applies recent question to prior word
+呢,ne,(Turns prior word into question)
 能,néng,to be able to
 你,nǐ,you (informal
 年,nián,year
@@ -149,7 +149,7 @@ Chinese,Pinyin,English,Romaji
 昨天,zuó tiān,yesterday
 坐,zuò,to sit
 做,zuò,to do
-吧,ba,(modal particle indicating suggestion or surmise)
+吧,ba,(suggestion particle)
 白,bái,white
 百,bǎi,hundred
 帮助,bāng zhù,assistance
@@ -168,7 +168,7 @@ Chinese,Pinyin,English,Romaji
 大家,dà jiā,everyone
 但是,dàn shì,but
 到,dào,to (a place)
-得,de,structural particle: used after a verb (or adjective as main verb)
+得,de,structural particle
 得,děi,to have to
 弟弟,dì di,younger brother
 第一,dì yī,first
@@ -198,7 +198,7 @@ Chinese,Pinyin,English,Romaji
 件,jiàn,item
 教室,jiào shì,classroom
 姐姐,jiě jie,older sister
-介绍,jiè shào,to introduce (sb to sb)
+介绍,jiè shào,to introduce
 进,jìn,to advance
 近,jìn,near
 就,jiù,at once
